@@ -1,24 +1,38 @@
 class Brave
-	# セッターの定義
-	def name=(name)
-		@name = name
-	end
+  # nameセッターの定義
+  attr_writer :name
 
-	def hp=(hp)
-		@hp = hp
-	end
+  # nameゲッターの定義
+  attr_reader :name
 
-	def offence=(offence)
-		@offence = offence
-	end
+  # hpセッターの定義
+  attr_writer :hp
 
-	def defence=(defence)
-		@defence = defence
-	end
+  # hpゲッターの定義
+  attr_reader :hp
 
-	brave = Brave.new
-	brave.name = "テリー"
-	brave.hp = 500
-	brave.offence = 150
-	brave.defence = 100
+  # offenseセッターの定義
+  attr_writer :offense
+
+  # offenseゲッターの定義
+  attr_reader :offense
+
+  # defenseセッターの定義
+  attr_writer :defense
+
+  # defenseゲッターの定義
+  attr_reader :defense
 end
+
+brave = Brave.new
+brave.name = 'テリー'
+brave.hp = 500
+brave.offense = 150
+brave.defense = 100
+
+puts <<~TEXT
+NAME：#{brave.name}
+HP：#{brave.hp}
+OFFENSE：#{brave.offense}
+DEFENSE：#{brave.defense}
+TEXT
