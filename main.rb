@@ -18,40 +18,39 @@ class Brave
     puts "#{@name}の攻撃"
 
     attack_type = decision_attack_type
-    damage = calculate_damage(target:monster, attack_type)
+    damage = calculate_damage(target: monster, attack_type: attack_type)
 
-    cause_damage(target:monster, damage)
+    cause_damage(target: monster, damage: damage)
     puts "#{monster.name}の残りHPは#{monster.hp}だ"
   end
 
+  private
 
+  def decision_attack_type
+    attack_num = rand(4)
+    if attack_num == 0
+      'special_attack'
+    else
+      'normal_attack'
+    end
+  end
 
-	private
-	def decision_attack_type
-		attack_num = rand(4)
-		if attack_num == 0
-			'special_attack'
-		else
-			'normal_attack'
-		end
-	end
+  def calculate_damage(**params)
+    target = params[:target]
+    attack_type = params[:attack_type]
+    if attack_type == 'special_attack'
+      calculate_special_attack - target.defense
+    else
+      @offense - target.defense
+    end
+  end
 
-	def calculate_damage(**params)
-		target = params[:target]
-		attack_type = params[:attack_type]
-		if attack_type == 'special_attack'
-			calculate_special_attack - target.damage
-		else
-			damage = @offense - target.defense
-		end
-	end
-
-	def cause_damage(**params)
-		damage = params[:damage]
-		target = params[:target]
-		target.hp -= damage
-		puts "#{monster.name}は#{damage}のダメージを受けた"
-	end
+  def cause_damage(**params)
+    damage = params[:damage]
+    target = params[:target]
+    target.hp -= damage
+    puts "#{target.name}は#{damage}のダメージを受けた"
+  end
 
   def calculate_special_attack
     @offense * SPECIAL_ATTACK_CONSTANT
@@ -81,11 +80,20 @@ class Monster
     end
 
     puts "#{@name}の攻撃"
-    damage = @offense - brave.defense
-    brave.hp -= damage
-
-    puts "#{brave.name}は#{damage}のダメージを受けた"
+    damage = calculate_damage(brave)
+    cause_damage(target: brave, damage: damage)
     puts "#{brave.name}の残りHPは#{brave.hp}だ"
+  end
+
+  def calculate_damage(target)
+    @offense - target.defense
+  end
+
+  def cause_damage(**params)
+    damage = params[:damage]
+    target = params[:target]
+    target.hp -= damage
+    puts "#{target.name}は#{damage}のダメージを受けた"
   end
 
   private
